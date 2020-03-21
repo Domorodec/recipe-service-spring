@@ -2,11 +2,12 @@ package com.service.recipe.service;
 
 import com.service.recipe.model.Recipe;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface RecipeService {
 
-     void saveRecipe(Recipe recipe);
+     Recipe saveRecipe(Recipe recipe);
 
      Recipe findByRecipeId(Integer id);
 
@@ -14,6 +15,8 @@ public interface RecipeService {
 
      void updateRecipe(Recipe recipe);
 
-     void deleteRecipe(Integer id);
+     Integer deleteRecipe(Integer id);
+
+     String saveImage(HttpServletRequest request, String fileName);
 
 }
