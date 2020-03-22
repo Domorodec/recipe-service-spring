@@ -7,12 +7,18 @@ import com.service.recipe.utility.EmailConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Service
+@Transactional
 public class UserServiceImpl implements UserService {
+
   @Autowired
-  private org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder bCryptPasswordEncoder;
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
   private UserRepo userRepo;

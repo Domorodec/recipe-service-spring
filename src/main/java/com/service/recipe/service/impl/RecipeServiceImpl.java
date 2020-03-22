@@ -5,10 +5,12 @@ import com.service.recipe.repo.RecipeRepo;
 import com.service.recipe.service.RecipeService;
 import com.service.recipe.utility.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,6 +18,8 @@ import java.nio.file.StandardOpenOption;
 import java.util.Iterator;
 import java.util.List;
 
+@Service
+@Transactional
 public class RecipeServiceImpl implements RecipeService {
 
   @Autowired
