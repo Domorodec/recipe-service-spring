@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
-    void saveUser(User recipe);
+    User saveUser(User recipe);
 
     User findByUserId(Integer id);
 
@@ -15,4 +15,8 @@ public interface UserService {
     void updateUser(User recipe);
 
     void deleteUser(Integer id);
+
+    User findByUserName(String username);
+
+    User findByUserEmail(String email);
 }
