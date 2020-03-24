@@ -38,7 +38,7 @@ public class UserResource {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User requestCreateBody) {
         String username = requestCreateBody.getName();
         if (userService.findByUserName(username) != null) {
@@ -56,7 +56,7 @@ public class UserResource {
         }
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public ResponseEntity<?> update(@RequestBody User requestUpdateBody) {
         Integer id = requestUpdateBody.getId();
         User user = userService.findByUserId(id);
