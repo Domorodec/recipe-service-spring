@@ -1,10 +1,13 @@
 package com.service.recipe.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Recipe {
+public class Recipe implements Serializable {
+
+    private static final long serialVersionUID = 14444345654L;
 
     @Column(unique = true)
     private String name;
