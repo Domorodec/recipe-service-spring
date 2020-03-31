@@ -11,6 +11,8 @@ public interface RecipeService {
 
      Recipe findByRecipeId(Integer id);
 
+     List<Recipe> findByCreatedBy(String username);
+
      List<Recipe> recipeList();
 
      void updateRecipe(Recipe recipe);

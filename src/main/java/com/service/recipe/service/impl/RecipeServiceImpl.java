@@ -39,6 +39,11 @@ public class RecipeServiceImpl implements RecipeService {
   }
 
   @Override
+  public List<Recipe> findByCreatedBy(String username) {
+    return recipeRepo.findRecipeByCreatedBy(username);
+  }
+
+  @Override
   public List<Recipe> recipeList() {
     return recipeRepo.findAll();
   }
