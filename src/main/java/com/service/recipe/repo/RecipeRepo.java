@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface RecipeRepo extends JpaRepository<Recipe, Integer> {
 
-     Recipe findRecipeById(Integer id);
+    Recipe findRecipeById(Integer id);
 
-     List<Recipe> findAllByCreatedBy(String name);
+    List<Recipe> findRecipeByCreatedBy(String username);
 
-     List<Recipe> findAll();
+    List<Recipe> findAll();
 }

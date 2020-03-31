@@ -9,7 +9,6 @@ public class Recipe implements Serializable {
 
     private static final long serialVersionUID = 14444345654L;
 
-    @Column(unique = true)
     private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
