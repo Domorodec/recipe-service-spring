@@ -41,10 +41,9 @@ public class RecipeResource {
         }
     }
 
-    @GetMapping("/list/{username}/{id}")
-    public Recipe getSelectedRecipeFromUser(@PathVariable("username") String username, @PathVariable("id") Integer id) {
-        /* return recipeService.findByUserId() dodelat */
-        return null;
+    @GetMapping("/{id}")
+    public Recipe getSelectedRecipeFromUser(@PathVariable("id") Integer id) {
+        return recipeService.findByRecipeId(id);
     }
 
     @PostMapping("/save")
@@ -62,7 +61,7 @@ public class RecipeResource {
         }
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteRecipe(@PathVariable("id") Integer id) {
         Recipe recipe = recipeService.findByRecipeId(id);
         if (recipe == null) {
@@ -72,7 +71,7 @@ public class RecipeResource {
             recipeService.deleteRecipe(id);
             return new ResponseEntity<>(recipe, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occured", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("An error occured in backend and recipe is not deleted", HttpStatus.BAD_REQUEST);
         }
     }
 

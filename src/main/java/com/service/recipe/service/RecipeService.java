@@ -17,7 +17,7 @@ public interface RecipeService {
 
      void updateRecipe(Recipe recipe);
 
-     Integer deleteRecipe(Integer id);
+     void deleteRecipe(Integer id);
 
      String saveImage(HttpServletRequest request, String fileName);
 
