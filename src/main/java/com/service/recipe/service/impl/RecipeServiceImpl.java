@@ -22,61 +22,62 @@ import java.util.List;
 @Transactional
 public class RecipeServiceImpl implements RecipeService {
 
-  @Autowired
-  private RecipeRepo recipeRepo;
+    @Autowired
+    private RecipeRepo recipeRepo;
 
-  @Override
-  public Recipe saveRecipe(Recipe recipe) {
+    @Override
+    public Recipe saveRecipe(Recipe recipe) {
     /* lection 23 more stuff for get content https://www.udemy.com/course/building-a-restful-api-application
     -using-spring-and-angular/learn/lecture/14039437#overview*/
-    recipeRepo.save(recipe);
-    return recipe;
-  }
-
-  @Override
-  public Recipe findByRecipeId(Integer id) {
-    return recipeRepo.findRecipeById(id);
-  }
-
-  @Override
-  public List<Recipe> findByCreatedBy(String username) {
-    return recipeRepo.findRecipeByCreatedBy(username);
-  }
-
-  @Override
-  public List<Recipe> recipeList() {
-    return recipeRepo.findAll();
-  }
-
-  @Override
-  public void updateRecipe(Recipe recipe) {
-    recipeRepo.save(recipe);
-  }
-
-  @Override
-  public Integer deleteRecipe(Integer id) {
-    try {
-      Files.deleteIfExists(Paths.get(Constants.USER_FOLDER + "/" + id + ".jpg"));
-      recipeRepo.deleteById(id);
-      return id;
-    } catch (Exception e) {
-      return null;
+        recipeRepo.save(recipe);
+        return recipe;
     }
-  }
 
-  @Override
-  public String saveImage(HttpServletRequest request, String fileName) {
-    MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-    Iterator<String> it = multipartHttpServletRequest.getFileNames();
-    MultipartFile multipartFile = multipartHttpServletRequest.getFile(it.next());
-    try {
-      assert multipartFile != null;
-      byte[] bytes = multipartFile.getBytes();
-      Path path = Paths.get(Constants.USER_FOLDER + fileName + ".jpg");
-      Files.write(path, bytes, StandardOpenOption.CREATE);
-    } catch (Exception e) {
-      return "Error occured. Photo not saved";
+    @Override
+    public Recipe findByRecipeId(Integer id) {
+        return recipeRepo.findRecipeById(id);
     }
-    return "Photo saved successfully";
-  }
+
+    @Override
+    public List<Recipe> findByCreatedBy(String username) {
+        return recipeRepo.findRecipeByCreatedBy(username);
+    }
+
+    @Override
+    public List<Recipe> recipeList() {
+        return recipeRepo.findAll();
+    }
+
+    @Override
+    public void updateRecipe(Recipe recipe) {
+        recipeRepo.save(recipe);
+    }
+
+    @Override
+    public void deleteRecipe(Integer id) {
+//    try {
+//      Files.deleteIfExists(Paths.get(Constants.USER_FOLDER + "/" + id + ".jpg"));
+//      recipeRepo.deleteById(id);
+//      return id;
+//    } catch (Exception e) {
+//      return null;
+//    }
+        recipeRepo.deleteById(id);
+    }
+
+    @Override
+    public String saveImage(HttpServletRequest request, String fileName) {
+        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+        Iterator<String> it = multipartHttpServletRequest.getFileNames();
+        MultipartFile multipartFile = multipartHttpServletRequest.getFile(it.next());
+        try {
+            assert multipartFile != null;
+            byte[] bytes = multipartFile.getBytes();
+            Path path = Paths.get(Constants.USER_FOLDER + fileName + ".jpg");
+            Files.write(path, bytes, StandardOpenOption.CREATE);
+        } catch (Exception e) {
+            return "Error occured. Photo not saved";
+        }
+        return "Photo saved successfully";
+    }
 }

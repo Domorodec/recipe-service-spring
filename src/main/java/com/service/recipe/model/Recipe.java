@@ -11,7 +11,6 @@ public class Recipe implements Serializable {
 
     private String name;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     private Integer id;
     private String content;

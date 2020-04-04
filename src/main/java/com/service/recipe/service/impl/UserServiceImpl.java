@@ -7,7 +7,7 @@ import com.service.recipe.utility.EmailConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,8 +17,8 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    @Autowired
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepo userRepo;
@@ -31,11 +31,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user) {
-        String password = RandomStringUtils.randomAlphabetic(10);
-        String encryptedPassword = bCryptPasswordEncoder.encode(password);
-        user.setPassword(encryptedPassword);
-        userRepo.save(user);
-        mailSender.send(emailConstructor.constructNewUserEmail(user, password));
+//        String password = RandomStringUtils.randomAlphabetic(10);
+//        String encryptedPassword = bCryptPasswordEncoder.encode(password);
+//        user.setPassword(encryptedPassword);
+//        userRepo.save(user);
+//        mailSender.send(emailConstructor.constructNewUserEmail(user, password));
         return user;
     }
 
@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        String password = user.getPassword();
-        String encryptedPassword = bCryptPasswordEncoder.encode(password);
-        user.setPassword(encryptedPassword);
-        userRepo.save(user);
-        mailSender.send(emailConstructor.constructUpdateUserProfileEmail(user));
+//        String password = user.getPassword();
+//        String encryptedPassword = bCryptPasswordEncoder.encode(password);
+//        user.setPassword(encryptedPassword);
+//        userRepo.save(user);
+//        mailSender.send(emailConstructor.constructUpdateUserProfileEmail(user));
     }
 
     @Override
