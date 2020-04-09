@@ -9,12 +9,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/recipes")
 public class RecipeResource {
+    private final static Logger LOGGER =
+            Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     @Autowired
     private RecipeService recipeService;
@@ -35,6 +40,7 @@ public class RecipeResource {
         }
         try {
             List<Recipe> recipes = recipeService.findByCreatedBy(username);
+            LOGGER.log(Level.INFO,"recipes fetched from DB");
             return new ResponseEntity<>(recipes, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("And error occured", HttpStatus.BAD_REQUEST);
@@ -69,6 +75,7 @@ public class RecipeResource {
         }
         try {
             recipeService.deleteRecipe(id);
+
             return new ResponseEntity<>(recipe, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("An error occured in backend and recipe is not deleted", HttpStatus.BAD_REQUEST);
