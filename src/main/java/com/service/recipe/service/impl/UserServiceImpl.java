@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 //        String password = RandomStringUtils.randomAlphabetic(10);
 //        String encryptedPassword = bCryptPasswordEncoder.encode(password);
 //        user.setPassword(encryptedPassword);
-//        userRepo.save(user);
+        userRepo.save(user);
 //        mailSender.send(emailConstructor.constructNewUserEmail(user, password));
         return user;
     }

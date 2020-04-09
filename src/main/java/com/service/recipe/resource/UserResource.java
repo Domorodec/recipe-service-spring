@@ -41,6 +41,15 @@ public class UserResource {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/findByUsername/{username}")
+    public ResponseEntity<?> getUserInfo(@PathVariable("username") String username) {
+        User user = this.userService.findByUserName(username);
+        if (user == null) {
+            return new ResponseEntity<>("Username not found", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User requestCreateBody) {
         String username = requestCreateBody.getName();
