@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -46,6 +44,15 @@ public class UserResource {
         User user = this.userService.findByUserName(username);
         if (user == null) {
             return new ResponseEntity<>("Username not found", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping("/login/{username}/{password}")
+    public ResponseEntity<?> login(@PathVariable("username") String username, @PathVariable("password") String password ) {
+        User user = this.userService.login(username, password);
+        if (user == null) {
+            return new ResponseEntity<>("Not valid login data", HttpStatus.OK);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
