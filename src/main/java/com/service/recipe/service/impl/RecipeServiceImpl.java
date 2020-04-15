@@ -55,29 +55,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public void deleteRecipe(Integer id) {
-//    try {
-//      Files.deleteIfExists(Paths.get(Constants.USER_FOLDER + "/" + id + ".jpg"));
-//      recipeRepo.deleteById(id);
-//      return id;
-//    } catch (Exception e) {
-//      return null;
-//    }
         recipeRepo.deleteById(id);
-    }
-
-    @Override
-    public String saveImage(HttpServletRequest request, String fileName) {
-        MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
-        Iterator<String> it = multipartHttpServletRequest.getFileNames();
-        MultipartFile multipartFile = multipartHttpServletRequest.getFile(it.next());
-        try {
-            assert multipartFile != null;
-            byte[] bytes = multipartFile.getBytes();
-            Path path = Paths.get(Constants.USER_FOLDER + fileName + ".jpg");
-            Files.write(path, bytes, StandardOpenOption.CREATE);
-        } catch (Exception e) {
-            return "Error occured. Photo not saved";
-        }
-        return "Photo saved successfully";
     }
 }
