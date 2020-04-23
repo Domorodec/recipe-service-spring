@@ -5,18 +5,14 @@ import com.service.recipe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/users")
 public class UserResource {
-
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserService userService;
@@ -48,8 +44,9 @@ public class UserResource {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/login/{username}/{password}")
-    public ResponseEntity<?> login(@PathVariable("username") String username, @PathVariable("password") String password ) {
+    @GetMapping("/loginAfterAuth")
+    /* zmenit na RequestParam*/
+    public ResponseEntity<?> loginAfterAuth(@RequestParam String username, @RequestParam String password) {
         User user = this.userService.login(username, password);
         if (user == null) {
             return new ResponseEntity<>("Not valid login data", HttpStatus.OK);
