@@ -73,9 +73,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String username, String password) {
-        var userObject = userRepo.findUserByName(username);
-        var userFromDB = userObject.getName();
-        var passwordFromDB = userObject.getPassword();
+        User userObject = userRepo.findUserByName(username);
+        String userFromDB = userObject.getName();
+        String passwordFromDB = userObject.getPassword();
         if (userFromDB.equals(username)) {
             if (bCryptPasswordEncoder.matches(password, passwordFromDB)) {
                 userObject.setPassword(bCryptPasswordEncoder.encode(password));
