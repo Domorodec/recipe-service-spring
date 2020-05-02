@@ -15,7 +15,7 @@
     <description>Recipe service</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>8</java.version>
     </properties>
 
     <dependencies>
@@ -99,6 +99,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.google.cloud.sql</groupId>
+            <artifactId>mysql-socket-factory-connector-j-8</artifactId>
+            <version>1.0.16</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -122,6 +128,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>2.2.0</version>
+                <configuration>
+                    <stage.enableJarSplitting>true</stage.enableJarSplitting>
+                    <deploy.stopPreviousVersion>true</deploy.stopPreviousVersion>
+                    <deploy.projectId>recipes-275612</deploy.projectId>
+                    <deploy.version>1</deploy.version>
+                </configuration>
             </plugin>
         </plugins>
     </build>
