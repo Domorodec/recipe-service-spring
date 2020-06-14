@@ -1,5 +1,6 @@
 package com.service.recipe.resource;
 
+import com.service.recipe.kafka.KafkaProducer;
 import com.service.recipe.model.User;
 import com.service.recipe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -16,6 +18,9 @@ public class UserResource {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @GetMapping("/list")
     public ResponseEntity<?> getUsersList() {
@@ -30,7 +35,7 @@ public class UserResource {
     public ResponseEntity<?> getUserInfo(@PathVariable("id") Integer id) {
         User user = this.userService.findByUserId(id);
         if (user == null) {
-            return new ResponseEntity<>("User with id not found", HttpStatus.OK);
+            return new ResponseEntity<>("User with id:"+ id + " not found", HttpStatus.OK);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -39,7 +44,7 @@ public class UserResource {
     public ResponseEntity<?> getUserInfo(@PathVariable("username") String username) {
         User user = this.userService.findByUserName(username);
         if (user == null) {
-            return new ResponseEntity<>("Username not found", HttpStatus.OK);
+            return new ResponseEntity<>("Username " + username +" not found", HttpStatus.OK);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -56,12 +61,16 @@ public class UserResource {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User requestCreateBody) {
+        this.kafkaProducer.sendMessage("New user is trying to register with name: " + requestCreateBody.getName() +
+                " password: " + requestCreateBody.getPassword() + " email: " + requestCreateBody.getEmail());
         String username = requestCreateBody.getName();
         if (userService.findByUserName(username) != null) {
+            this.kafkaProducer.sendMessage("Username:" + requestCreateBody.getName() + " already registered");
             return new ResponseEntity<>("Username already registered", HttpStatus.CONFLICT);
         }
         String email = requestCreateBody.getEmail();
         if (userService.findByUserEmail(email) != null) {
+            this.kafkaProducer.sendMessage("Email:" + requestCreateBody.getEmail() + " already registered");
             return new ResponseEntity<>("Email already registered", HttpStatus.CONFLICT);
         }
         try {

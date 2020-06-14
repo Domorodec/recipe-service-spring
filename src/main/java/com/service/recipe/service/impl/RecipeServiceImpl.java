@@ -22,9 +22,15 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe saveRecipe(Recipe recipe) {
+        String action;
+        if (this.recipeRepo.findRecipeById(recipe.getId()) != null) {
+            action = "UPDATE";
+        } else {
+            action = "SAVE";
+        }
     /* lection 23 more stuff for get content https://www.udemy.com/course/building-a-restful-api-application
     -using-spring-and-angular/learn/lecture/14039437#overview*/
-        this.kafkaProducer.sendMessage("User " + recipe.getCreatedBy() + " requested to save recipe with details:" +
+        this.kafkaProducer.sendMessage("User " + recipe.getCreatedBy() + " requested to " + action + "+ recipe with details: " +
                 "name: " + recipe.getName() + "" +
                 "category: " + recipe.getCategory() + "" +
                 "img: " + recipe.getImg() + "" +
@@ -48,7 +54,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> recipeList() {
-        this.kafkaProducer.sendMessage("User requested all recipes at [" + new Date() + "]");
+        this.kafkaProducer.sendMessage("Someone requested all recipes at [" + new Date() + "]");
         return recipeRepo.findAll();
     }
 
@@ -64,8 +70,8 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void deleteRecipe(Integer id) {
-        this.kafkaProducer.sendMessage("User requested deleting recipe with id " + id + " at [" + new Date() + "]");
+    public void deleteRecipe(Integer id, String username) {
+        this.kafkaProducer.sendMessage("User " + username + " requested deleting recipe with id " + id + " at [" + new Date() + "]");
         recipeRepo.deleteById(id);
     }
 }

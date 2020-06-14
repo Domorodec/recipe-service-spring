@@ -17,5 +17,5 @@ public interface RecipeService {
 
      void updateRecipe(Recipe recipe);
 
-     void deleteRecipe(Integer id);
+     void deleteRecipe(Integer id, String username);
 }
