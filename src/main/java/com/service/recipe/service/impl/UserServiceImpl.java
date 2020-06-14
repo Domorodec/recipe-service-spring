@@ -1,5 +1,6 @@
 package com.service.recipe.service.impl;
 
+import com.service.recipe.kafka.KafkaProducer;
 import com.service.recipe.model.User;
 import com.service.recipe.repo.UserRepo;
 import com.service.recipe.service.UserService;
@@ -28,11 +29,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JavaMailSender mailSender;
 
+    @Autowired
+    private KafkaProducer kafkaProducer;
+
     @Override
     public User saveUser(User user) {
         String encryptedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         userRepo.save(user);
+        kafkaProducer.sendMessage("User " + user.getName() + " successfully registered.");
 //        mailSender.send(emailConstructor.constructNewUserEmail(user, password));
         return user;
     }
@@ -73,14 +78,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String username, String password) {
+        this.kafkaProducer.sendMessage("User " + username + " with password " + password + "is trying to login. Checking if exists in DB.");
         User userObject = userRepo.findUserByName(username);
         String userFromDB = userObject.getName();
         String passwordFromDB = userObject.getPassword();
         if (userFromDB.equals(username)) {
+            this.kafkaProducer.sendMessage("User " + username + " exists");
             if (bCryptPasswordEncoder.matches(password, passwordFromDB)) {
+                this.kafkaProducer.sendMessage("Password is correct");
                 userObject.setPassword(bCryptPasswordEncoder.encode(password));
                 return userObject;
             } else {
+                this.kafkaProducer.sendMessage("Wrong password");
                 return null;
             }
         }

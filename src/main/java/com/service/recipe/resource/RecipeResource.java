@@ -40,7 +40,7 @@ public class RecipeResource {
         }
         try {
             List<Recipe> recipes = recipeService.findByCreatedBy(username);
-            LOGGER.log(Level.INFO,"recipes fetched from DB");
+            LOGGER.log(Level.INFO, "recipes fetched from DB");
             return new ResponseEntity<>(recipes, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("And error occured", HttpStatus.BAD_REQUEST);
@@ -67,14 +67,14 @@ public class RecipeResource {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteRecipe(@PathVariable("id") Integer id) {
+    @DeleteMapping("/delete/{id}/{username}")
+    public ResponseEntity<?> deleteRecipe(@PathVariable("id") Integer id, @PathVariable("username") String username) {
         Recipe recipe = recipeService.findByRecipeId(id);
         if (recipe == null) {
             return new ResponseEntity<>("Recipe not found", HttpStatus.NOT_FOUND);
         }
         try {
-            recipeService.deleteRecipe(id);
+            recipeService.deleteRecipe(id, username);
 
             return new ResponseEntity<>(recipe, HttpStatus.OK);
         } catch (Exception e) {
