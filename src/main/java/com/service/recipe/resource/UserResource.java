@@ -4,11 +4,14 @@ import com.service.recipe.kafka.KafkaProducer;
 import com.service.recipe.model.User;
 import com.service.recipe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.neo4j.Neo4jDataAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -22,11 +25,15 @@ public class UserResource {
     @Autowired
     private KafkaProducer kafkaProducer;
 
+    String NOT_FOUND = "not found";
+
     @GetMapping("/list")
-    public ResponseEntity<?> getUsersList() {
+    public ResponseEntity<List<User>> getUsersList() {
         List<User> users = userService.userList();
         if (users.isEmpty()) {
-            return new ResponseEntity<>("No users found", HttpStatus.OK);
+            List<User> userNotfound = new ArrayList<>();
+            userNotfound.add(new User(NOT_FOUND, NOT_FOUND, NOT_FOUND, new Date(), null));
+            return new ResponseEntity<>(userNotfound, HttpStatus.OK);
         }
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
@@ -35,22 +42,23 @@ public class UserResource {
     public ResponseEntity<?> getUserInfo(@PathVariable("id") Integer id) {
         User user = this.userService.findByUserId(id);
         if (user == null) {
-            return new ResponseEntity<>("User with id:"+ id + " not found", HttpStatus.OK);
+            User userNotfound = new User(NOT_FOUND, NOT_FOUND, NOT_FOUND, new Date(), null);
+            return new ResponseEntity<>(userNotfound, HttpStatus.OK);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/findByUsername/{username}")
-    public ResponseEntity<?> getUserInfo(@PathVariable("username") String username) {
+    public ResponseEntity<User> getUserInfo(@PathVariable("username") String username) {
         User user = this.userService.findByUserName(username);
         if (user == null) {
-            return new ResponseEntity<>("Username " + username +" not found", HttpStatus.OK);
+            User userNotfound = new User(NOT_FOUND, NOT_FOUND, NOT_FOUND, new Date(), null);
+            return new ResponseEntity<>(userNotfound, HttpStatus.OK);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/loginAfterAuth")
-    /* zmenit na RequestParam*/
     public ResponseEntity<?> loginAfterAuth(@RequestParam String username, @RequestParam String password) {
         User user = this.userService.login(username, password);
         if (user == null) {
@@ -86,7 +94,8 @@ public class UserResource {
         Integer id = requestUpdateBody.getId();
         User user = userService.findByUserId(id);
         if (user == null) {
-            return new ResponseEntity<>("userNotFound", HttpStatus.NOT_FOUND);
+            User userNotfound = new User(NOT_FOUND, NOT_FOUND, NOT_FOUND, new Date(), null);
+            return new ResponseEntity<>(userNotfound, HttpStatus.OK);
         }
         try {
             userService.updateUser(user);
