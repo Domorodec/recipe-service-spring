@@ -13,8 +13,10 @@ public class Recipe implements Serializable {
     @Id
     @Column(unique = true)
     private Integer id;
+    @Column(columnDefinition = "TEXT")
     private String content;
     private String category;
+    @Column(columnDefinition = "TEXT")
     private String img;
     private Date createdTimeDate;
     private String createdBy;
