@@ -81,5 +81,4 @@ public class RecipeResource {
             return new ResponseEntity<>("An error occured in backend and recipe is not deleted", HttpStatus.BAD_REQUEST);
         }
     }
-
 }
