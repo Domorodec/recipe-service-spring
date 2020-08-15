@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200","receptoland.cz"})
 @RequestMapping("/recipes")
 public class RecipeResource {
     private final static Logger LOGGER =
