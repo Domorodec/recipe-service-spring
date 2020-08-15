@@ -2,7 +2,7 @@ spring:
   kafka:
     consumer:
       #      PROD
-      #      bootstrap-servers: 34.86.214.6:9092
+      #bootstrap-servers: 34.86.214.6:9092
       #      DEV
       bootstrap-servers: localhost:9092
       group-id: group-id
@@ -11,7 +11,7 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       #      PROD
-      #      bootstrap-servers: 34.86.214.6:9092
+      #bootstrap-servers: 34.86.214.6:9092
       #      DEV
       bootstrap-servers: localhost:9092
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
