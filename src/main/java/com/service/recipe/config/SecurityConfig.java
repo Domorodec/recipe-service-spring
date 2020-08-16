@@ -36,8 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         JwtAuthentication jwtAuthentication = new JwtAuthentication(authenticationManager());
         jwtAuthentication.setFilterProcessesUrl(PUBLIC_MATCHERS[0]);
         http.headers().frameOptions().disable();
-//        http.csrf().disable().cors().disable()
-        http.csrf().disable()
+        http.csrf().disable().cors().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll()
